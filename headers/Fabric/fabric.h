@@ -43,6 +43,9 @@ public:
 	// return false if task with this id is not exist
 	bool getTaskState(TASK_STATE& , TASK_ID);
 
+	// return false if task with this id is not exist
+	bool getTaskHash(size_t&, TASK_ID);
+
 	~TaskSolverFabric();
 private:
 

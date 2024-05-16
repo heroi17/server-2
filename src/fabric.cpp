@@ -37,7 +37,8 @@ bool TaskSolverFabric::FabricStartUp()
 	if (!isInit) return false;
 	if (isStartingUp) return false;
 	std::for_each(workers_.begin(), workers_.end(), [this](Worker& el) {el.SturtUp(this); });
-
+	
+	this->isStartingUp = true;
 
 	//TODO: add start managerTime.
 
@@ -53,6 +54,8 @@ bool TaskSolverFabric::FabricShutDown()
 	
 	std::for_each(workers_.begin(), workers_.end(), std::mem_fn(&Worker::ShutDown));
 
+	isStartingUp = false;
+
 	return true;
 
 }
@@ -65,8 +68,12 @@ bool TaskSolverFabric::allocateSpaceForTask(TASK_ID& newId)
 	{
 		//it always should exist!!
 		auto* answerPtr = this->resultManager.getAnswerPtr(newIdIn_);
+		
 		ASSERT(answerPtr != nullptr); //always should be not nullptr!
+		//may be add layter (checking for old task)
+		//answerPtr->timeWhenDelete = std::chrono::system_clock::now() + std::chrono::days(5);
 		answerPtr->stageOfTask = TASK_STATE::WAITING_FOR_LOAD_TASK_CONTAINER;
+		answerPtr->HASH = ((size_t)rand()); //hash should be 32 bits(first)
 		newId = newIdIn_; 
 	}
 	return isAllocated;
@@ -120,6 +127,18 @@ bool TaskSolverFabric::getTaskState(TASK_STATE& returnTaskState, TASK_ID taskId)
 		return false;
 
 	returnTaskState = answerPtr->stageOfTask;
+
+	return true;
+}
+
+bool TaskSolverFabric::getTaskHash(size_t& hash, TASK_ID taskId)
+{
+	std::lock_guard lg(accessMutex);
+	auto* answerPtr = this->resultManager.getAnswerPtr(taskId);
+	if (answerPtr == nullptr)
+		return false;
+
+	hash = answerPtr->HASH;
 
 	return true;
 }

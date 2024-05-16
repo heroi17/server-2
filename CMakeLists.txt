@@ -33,7 +33,8 @@ add_executable (CMakeTarget
 
 
 
-	"src/AnswerManager.cpp" 
+	"src/AnswerManager.cpp"
+	"src/APITaskManager.cpp"
 	"src/fabric.cpp"
 	"src/GlobalInclude.cpp" 
 	"src/PoolManager.cpp"
@@ -44,7 +45,7 @@ add_executable (CMakeTarget
 
 	"server 2.0.cpp"
 	"server 2.0.h"
- "testFiles.cpp" "testFiles.h")
+  )
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET CMakeTarget PROPERTY CXX_STANDARD 20)

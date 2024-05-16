@@ -5,10 +5,12 @@
 #include "GlobalInclude.h"
 #include "Fabric/fabric.h"
 
-
+//just wrapper around fabric_ with hash. (if people want to change other's data)
 struct APITaskManager {
-
-	bool INIT();
+private:
+	using OpRes = OpperationResult;
+public:
+	MANAGER_INIT_ERROR INIT(size_t answersCount, size_t tasksCount, size_t workersCount);
 
 	bool DISABLE();
 
@@ -16,14 +18,18 @@ struct APITaskManager {
 
 	bool ShutDown();
 
-	NewTaskContainerError NewTaskContainer(UNIC_KEY&);
+	bool APINewTaskContainer(UNIC_KEY& key);
 
-	OpperationResult StoreTask(TASK_CONTAINER&);
+	OpperationResult APIStoreTask(const TASK_CONTAINER& taskContainer, UNIC_KEY key);
 
-	OpperationResult LoadTaskAnswer(UNIC_KEY);
+	OpperationResult APILoadTaskAnswer(TASK_ANSWER& answer,UNIC_KEY key);
 
-	OpperationResult FreeTaskAnswer(UNIC_KEY);
+	OpperationResult APIFreeTaskAnswer(UNIC_KEY key);
+private:
 
+	OpperationResult ValidateKey(UNIC_KEY key, TASK_ID& taskId);
+
+	TaskSolverFabric fabric_;
 
 };
 

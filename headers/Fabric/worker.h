@@ -22,6 +22,7 @@ private:
 	//FILDS
 	std::mutex startUpMutex;
 	bool isStartingUp_ = false;
+	bool inWorkerLoop = false;
 	std::thread myThread_;
 	TaskSolverFabric* myFabric_ = nullptr;
 };
