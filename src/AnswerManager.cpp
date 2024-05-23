@@ -1,6 +1,6 @@
 #include "../headers/Fabric/AnswerManager.h"
 
-MANAGER_INIT_ERROR AnswerManager::INIT(std::size_t answersSize, std::size_t taskSize)
+MANAGER_INIT_ERROR AnswerManager::INIT(std::uint32_t answersSize, std::uint32_t taskSize)
 {
 	std::lock_guard lg(allocationMutex);
 	using MIE = MANAGER_INIT_ERROR;

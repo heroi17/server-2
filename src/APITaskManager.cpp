@@ -1,7 +1,7 @@
 #include "../headers/APITaskManager.h"
 
 
-MANAGER_INIT_ERROR APITaskManager::INIT(size_t answersCount, size_t tasksCount, size_t workersCount) {
+MANAGER_INIT_ERROR APITaskManager::INIT(uint32_t answersCount, uint32_t tasksCount, uint32_t workersCount) {
 	return this->fabric_.INIT(answersCount, tasksCount, workersCount);
 }
 
@@ -22,7 +22,7 @@ bool APITaskManager::ShutDown() {
 
 bool APITaskManager::APINewTaskContainer(UNIC_KEY& key) {
 	TASK_ID taskId;
-	size_t hash;
+	uint32_t hash;
 	if (!this->fabric_.allocateSpaceForTask(taskId))
 		return false;
 	bool success = this->fabric_.getTaskHash(hash, taskId);
@@ -76,8 +76,8 @@ OpperationResult APITaskManager::APIFreeTaskAnswer(UNIC_KEY key)
 OpperationResult APITaskManager::ValidateKey(UNIC_KEY key, TASK_ID & taskId)
 {
 	TASK_ID taskIdValidate = KEY_TO_ID(key);
-	size_t  hash = KEY_TO_HASH(key);
-	size_t  realHash = 0;
+	uint32_t  hash = KEY_TO_HASH(key);
+	uint32_t  realHash = 0;
 	bool success = this->fabric_.getTaskHash(realHash, taskIdValidate);
 	if (!success) // do not exist object with this id
 		return OpRes::NOT_FOUND;

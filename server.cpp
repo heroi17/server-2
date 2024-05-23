@@ -2,10 +2,10 @@
 //
 
 #include "server.h"
-
+#include "tests/AADSMonteCarlo.h"
 
 //make TASK_DATA from input data
-TASK_DATA makedata123(int a_, int b_) {
+TASK_DATA toTASK_DATA(int a_, int b_) {
 	TASK_DATA data;
 	int* dataInt = (int*)data.task_data;
 	dataInt[0] = a_;
@@ -14,14 +14,14 @@ TASK_DATA makedata123(int a_, int b_) {
 }
 
 //func thet use TASK_DATA and put answer into TASK_ANSWER
-void func123(const TASK_DATA& Task_data, TASK_ANSWER& answerData) {
+void funkForWorker(const TASK_DATA& Task_data, TASK_ANSWER& answerData) {
 	int const* dataInt = (int const*)Task_data.task_data;
 	((int*)answerData.answer_data)[0] = dataInt[0] + dataInt[1];
 }
 
 
 //extract the answer from TASK_ANSWER
-int getAnswer(const TASK_ANSWER& answerData) {
+int TASK_ANSWER_ToAnswer(const TASK_ANSWER& answerData) {
 	return ((int*)answerData.answer_data)[0];
 }
 
@@ -29,9 +29,7 @@ int getAnswer(const TASK_ANSWER& answerData) {
 
 
 
-
-
-int main() {
+int sumTest() {
 	using namespace std::chrono;
 	APITaskManager myFabric;
 	myFabric.INIT(100, 10, 5); // 10000 answer and 100 elem in queue.
@@ -40,12 +38,12 @@ int main() {
 
 	UNIC_KEY myKey;
 	std::vector<UNIC_KEY> keys;
-	TASK_CONTAINER myTask { func123, makedata123(0, 0) };
+	TASK_CONTAINER myTask { funkForWorker, toTASK_DATA(0, 0) };
 	for (int i = 0; i< 100; i++) {
 		
 		if (myFabric.APINewTaskContainer(myKey))
 		{
-			myFabric.APIStoreTask({ func123, makedata123(rand()%10, rand()%10) }, myKey);
+			myFabric.APIStoreTask({ funkForWorker, toTASK_DATA(rand()%10, rand()%10) }, myKey);
 			keys.push_back(myKey);
 		}
 		std::this_thread::sleep_for(25ms);
@@ -63,7 +61,7 @@ int main() {
 
 		myFabric.APILoadTaskAnswer(answ, el);
 
-		std::cout << KEY_TO_ID(el) << ": " << getAnswer(answ) << std::endl;
+		std::cout << KEY_TO_ID(el) << ": " << TASK_ANSWER_ToAnswer(answ) << std::endl;
 
 	}
 	std::cout << keys.size() << std::endl;
@@ -73,5 +71,14 @@ int main() {
 	std::cout << "stop" << std::endl;
 	myFabric.DISABLE();
 	std::cout << "free" << std::endl;
+	return 0;
+}
+
+
+
+
+int main() {
+	//sumTest();
+	monteCarloTest();
 	return 0;
 }

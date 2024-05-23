@@ -14,7 +14,7 @@ class TaskSolverFabric {
 	friend class Worker;
 
 public:
-	MANAGER_INIT_ERROR INIT(size_t answersCount, size_t tasksCount, size_t workersCount);
+	MANAGER_INIT_ERROR INIT(uint32_t answersCount, uint32_t tasksCount, uint32_t workersCount);
 
 	//return false if already init;
 	bool DISABLE();
@@ -44,7 +44,7 @@ public:
 	bool getTaskState(TASK_STATE& , TASK_ID);
 
 	// return false if task with this id is not exist
-	bool getTaskHash(size_t&, TASK_ID);
+	bool getTaskHash(uint32_t&, TASK_ID);
 
 	~TaskSolverFabric();
 private:

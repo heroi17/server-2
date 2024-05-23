@@ -45,7 +45,7 @@ add_executable (CMakeTarget
 
 	"server.cpp"
 	"server.h"
-  )
+   "tests/AADSMonteCarlo.h" "tests/AADSMonteCarlo.cpp")
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET CMakeTarget PROPERTY CXX_STANDARD 20)

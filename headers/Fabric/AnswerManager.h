@@ -23,7 +23,7 @@ class TaskSolverFabric;
 class AnswerManager {
 	friend class TaskSolverFabric;
 public:
-	MANAGER_INIT_ERROR INIT(std::size_t answersSize, std::size_t  taskSize);
+	MANAGER_INIT_ERROR INIT(uint32_t answersSize, uint32_t  taskSize);
 
 	bool DISABLE();
 

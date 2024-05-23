@@ -1,7 +1,7 @@
 #include "../headers/Fabric/fabric.h"
 #include <functional>
 
-MANAGER_INIT_ERROR TaskSolverFabric::INIT(size_t answersCount, size_t tasksCount, size_t workersCount)
+MANAGER_INIT_ERROR TaskSolverFabric::INIT(uint32_t answersCount, uint32_t tasksCount, uint32_t workersCount)
 {
 	std::lock_guard lg(accessMutex);
 	if (isInit) return MANAGER_INIT_ERROR::OLREADY_INIT;
@@ -11,7 +11,7 @@ MANAGER_INIT_ERROR TaskSolverFabric::INIT(size_t answersCount, size_t tasksCount
 
 
 	workers_.clear();
-	for (size_t i = 0; i < workersCount; i++) {
+	for (uint32_t i = 0; i < workersCount; i++) {
 		workers_.emplace_back();
 	}
 
@@ -73,7 +73,7 @@ bool TaskSolverFabric::allocateSpaceForTask(TASK_ID& newId)
 		//may be add layter (checking for old task)
 		//answerPtr->timeWhenDelete = std::chrono::system_clock::now() + std::chrono::days(5);
 		answerPtr->stageOfTask = TASK_STATE::WAITING_FOR_LOAD_TASK_CONTAINER;
-		answerPtr->HASH = ((size_t)rand()); //hash should be 32 bits(first)
+		answerPtr->HASH = ((uint32_t)rand()); //hash should be 32 bits(first)
 		newId = newIdIn_; 
 	}
 	return isAllocated;
@@ -131,7 +131,7 @@ bool TaskSolverFabric::getTaskState(TASK_STATE& returnTaskState, TASK_ID taskId)
 	return true;
 }
 
-bool TaskSolverFabric::getTaskHash(size_t& hash, TASK_ID taskId)
+bool TaskSolverFabric::getTaskHash(uint32_t& hash, TASK_ID taskId)
 {
 	std::lock_guard lg(accessMutex);
 	auto* answerPtr = this->resultManager.getAnswerPtr(taskId);

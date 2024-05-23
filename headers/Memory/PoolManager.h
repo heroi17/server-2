@@ -12,7 +12,7 @@
 struct PoolManager {
 
 	//return true if can allocate memory
-	MANAGER_INIT_ERROR INIT(std::size_t capacity, std::size_t bytesSizeOfType); //
+	MANAGER_INIT_ERROR INIT(uint32_t capacity, uint32_t bytesSizeOfType); //
 
 
 	//free data(if not init then return false);
@@ -24,11 +24,11 @@ struct PoolManager {
 	bool freeObj(void* freeData);
 
 
-	void* operator[](size_t index_); // return ptr on data in index
+	void* operator[](uint32_t index_); // return ptr on data in index
 
-	bool getIndex(size_t& returnId, const void *const ptrObj_) const; // return true and change returnId
+	bool getIndex(uint32_t& returnId, const void *const ptrObj_) const; // return true and change returnId
 
-	std::size_t getCapacity() const;
+	uint32_t getCapacity() const;
 	~PoolManager(); // We should to free dataPtr.
 private:
 
@@ -49,9 +49,9 @@ private:
 
 	mutable std::mutex allocMutex_; //mutable for getters
 
-	std::size_t capacity_=0; //max objects count in pull
-	std::size_t BLOCK_SIZE=0; // size of block(LLN + object)
-	std::size_t objectSize_=0;
+	std::uint32_t capacity_=0; //max objects count in pull
+	std::uint32_t BLOCK_SIZE=0; // size of block(LLN + object)
+	std::uint32_t objectSize_=0;
 	void* dataPtr = nullptr; //when isInit then it's not nullptr
 	bool isInit = false;
 

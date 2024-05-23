@@ -10,7 +10,7 @@ struct APITaskManager {
 private:
 	using OpRes = OpperationResult;
 public:
-	MANAGER_INIT_ERROR INIT(size_t answersCount, size_t tasksCount, size_t workersCount);
+	MANAGER_INIT_ERROR INIT(uint32_t answersCount, uint32_t tasksCount, uint32_t workersCount);
 
 	bool DISABLE();
 
