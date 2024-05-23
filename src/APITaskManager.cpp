@@ -53,7 +53,7 @@ OpperationResult APITaskManager::APILoadTaskAnswer(TASK_ANSWER& answer, UNIC_KEY
 	if (success == OpRes::DONE)
 	{
 		AnswerContainer answerContainer;
-		bool isSolwedResult = this->fabric_.getSolvedAnswerContainer(answerContainer, key);
+		bool isSolwedResult = this->fabric_.getSolvedAnswerContainer(answerContainer, KEY_TO_ID(key));
 		if (isSolwedResult == false)
 			return OpRes::NOT_DONE;
 		answer = answerContainer.mainResult;

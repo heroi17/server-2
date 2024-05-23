@@ -43,8 +43,8 @@ add_executable (CMakeTarget
 	"src/TaskContainer.cpp"
 
 
-	"server 2.0.cpp"
-	"server 2.0.h"
+	"server.cpp"
+	"server.h"
   )
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
