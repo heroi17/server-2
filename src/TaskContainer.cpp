@@ -4,10 +4,11 @@
 
 TASK_ANSWER TASK_CONTAINER::operator()() {
 	TASK_ANSWER answer;
-	answer.result = a_ + b_;
+	this->func_(this->data_, answer);
 	return answer;
 }
 
 
-TASK_CONTAINER::TASK_CONTAINER(int a, int b) : a_(a), b_(b) {}
+TASK_CONTAINER::TASK_CONTAINER(void(*func)(const TASK_DATA&, TASK_ANSWER&), TASK_DATA data)
+	: func_(func), data_(data) {}
 

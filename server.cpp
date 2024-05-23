@@ -3,6 +3,34 @@
 
 #include "server.h"
 
+
+//make TASK_DATA from input data
+TASK_DATA makedata123(int a_, int b_) {
+	TASK_DATA data;
+	int* dataInt = (int*)data.task_data;
+	dataInt[0] = a_;
+	dataInt[1] = b_;
+	return data;
+}
+
+//func thet use TASK_DATA and put answer into TASK_ANSWER
+void func123(const TASK_DATA& Task_data, TASK_ANSWER& answerData) {
+	int const* dataInt = (int const*)Task_data.task_data;
+	((int*)answerData.answer_data)[0] = dataInt[0] + dataInt[1];
+}
+
+
+//extract the answer from TASK_ANSWER
+int getAnswer(const TASK_ANSWER& answerData) {
+	return ((int*)answerData.answer_data)[0];
+}
+
+
+
+
+
+
+
 int main() {
 	using namespace std::chrono;
 	APITaskManager myFabric;
@@ -12,12 +40,12 @@ int main() {
 
 	UNIC_KEY myKey;
 	std::vector<UNIC_KEY> keys;
-	TASK_CONTAINER myTask {100, 2};
+	TASK_CONTAINER myTask { func123, makedata123(0, 0) };
 	for (int i = 0; i< 100; i++) {
 		
 		if (myFabric.APINewTaskContainer(myKey))
 		{
-			myFabric.APIStoreTask({rand()%10, rand()%10}, myKey);
+			myFabric.APIStoreTask({ func123, makedata123(rand()%10, rand()%10) }, myKey);
 			keys.push_back(myKey);
 		}
 		std::this_thread::sleep_for(25ms);
@@ -35,7 +63,7 @@ int main() {
 
 		myFabric.APILoadTaskAnswer(answ, el);
 
-		std::cout << KEY_TO_ID(el) << ": " << answ.result << std::endl;
+		std::cout << KEY_TO_ID(el) << ": " << getAnswer(answ) << std::endl;
 
 	}
 	std::cout << keys.size() << std::endl;

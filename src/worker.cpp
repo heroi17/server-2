@@ -16,10 +16,9 @@ bool Worker::ShutDown()
 	if (!isStartingUp_) return false;
 	isStartingUp_ = false;
 
-	// we should to know that our WorkerLoop not in wait_and_pop now.
-
-	// we should put in queue ID: TERMINATE_TASK_ID and to know that our worker catch this TERMINATE_TASK_ID.
-	// if there only one worker then we catch it, but if more then 1 second worker can catch it, stop working, and be in deadLock
+	// We should to know that our WorkerLoop not in wait_and_pop now.
+	// We should put in queue ID: TERMINATE_TASK_ID and to know that our worker catch this TERMINATE_TASK_ID.
+	// If there only one worker then we catch it, but if more then 1 second worker can catch it, stop working, and our worker be in deadLock.
 	while (this->inWorkerLoop) {
 		this->myFabric_->ToSolveIds_.push(TERMINATE_TASK_ID);
 		std::this_thread::sleep_for(std::chrono::milliseconds(10));
